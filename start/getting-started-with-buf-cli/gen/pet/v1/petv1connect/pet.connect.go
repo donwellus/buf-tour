@@ -21,110 +21,110 @@ import (
 const _ = connect_go.IsAtLeastVersion0_1_0
 
 const (
-	// PetStoreName is the fully-qualified name of the PetStore service.
-	PetStoreName = "pet.v1.PetStore"
+	// PetStoreServiceName is the fully-qualified name of the PetStoreService service.
+	PetStoreServiceName = "pet.v1.PetStoreService"
 )
 
-// PetStoreClient is a client for the pet.v1.PetStore service.
-type PetStoreClient interface {
+// PetStoreServiceClient is a client for the pet.v1.PetStoreService service.
+type PetStoreServiceClient interface {
 	GetPet(context.Context, *connect_go.Request[v1.GetPetRequest]) (*connect_go.Response[v1.GetPetResponse], error)
 	PutPet(context.Context, *connect_go.Request[v1.PutPetRequest]) (*connect_go.Response[v1.PutPetResponse], error)
 	DeletePet(context.Context, *connect_go.Request[v1.DeletePetRequest]) (*connect_go.Response[v1.DeletePetResponse], error)
 }
 
-// NewPetStoreClient constructs a client for the pet.v1.PetStore service. By default, it uses the
-// Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
-// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
-// connect.WithGRPCWeb() options.
+// NewPetStoreServiceClient constructs a client for the pet.v1.PetStoreService service. By default,
+// it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and
+// sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC()
+// or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewPetStoreClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) PetStoreClient {
+func NewPetStoreServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) PetStoreServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &petStoreClient{
+	return &petStoreServiceClient{
 		getPet: connect_go.NewClient[v1.GetPetRequest, v1.GetPetResponse](
 			httpClient,
-			baseURL+"/pet.v1.PetStore/GetPet",
+			baseURL+"/pet.v1.PetStoreService/GetPet",
 			opts...,
 		),
 		putPet: connect_go.NewClient[v1.PutPetRequest, v1.PutPetResponse](
 			httpClient,
-			baseURL+"/pet.v1.PetStore/PutPet",
+			baseURL+"/pet.v1.PetStoreService/PutPet",
 			opts...,
 		),
 		deletePet: connect_go.NewClient[v1.DeletePetRequest, v1.DeletePetResponse](
 			httpClient,
-			baseURL+"/pet.v1.PetStore/DeletePet",
+			baseURL+"/pet.v1.PetStoreService/DeletePet",
 			opts...,
 		),
 	}
 }
 
-// petStoreClient implements PetStoreClient.
-type petStoreClient struct {
+// petStoreServiceClient implements PetStoreServiceClient.
+type petStoreServiceClient struct {
 	getPet    *connect_go.Client[v1.GetPetRequest, v1.GetPetResponse]
 	putPet    *connect_go.Client[v1.PutPetRequest, v1.PutPetResponse]
 	deletePet *connect_go.Client[v1.DeletePetRequest, v1.DeletePetResponse]
 }
 
-// GetPet calls pet.v1.PetStore.GetPet.
-func (c *petStoreClient) GetPet(ctx context.Context, req *connect_go.Request[v1.GetPetRequest]) (*connect_go.Response[v1.GetPetResponse], error) {
+// GetPet calls pet.v1.PetStoreService.GetPet.
+func (c *petStoreServiceClient) GetPet(ctx context.Context, req *connect_go.Request[v1.GetPetRequest]) (*connect_go.Response[v1.GetPetResponse], error) {
 	return c.getPet.CallUnary(ctx, req)
 }
 
-// PutPet calls pet.v1.PetStore.PutPet.
-func (c *petStoreClient) PutPet(ctx context.Context, req *connect_go.Request[v1.PutPetRequest]) (*connect_go.Response[v1.PutPetResponse], error) {
+// PutPet calls pet.v1.PetStoreService.PutPet.
+func (c *petStoreServiceClient) PutPet(ctx context.Context, req *connect_go.Request[v1.PutPetRequest]) (*connect_go.Response[v1.PutPetResponse], error) {
 	return c.putPet.CallUnary(ctx, req)
 }
 
-// DeletePet calls pet.v1.PetStore.DeletePet.
-func (c *petStoreClient) DeletePet(ctx context.Context, req *connect_go.Request[v1.DeletePetRequest]) (*connect_go.Response[v1.DeletePetResponse], error) {
+// DeletePet calls pet.v1.PetStoreService.DeletePet.
+func (c *petStoreServiceClient) DeletePet(ctx context.Context, req *connect_go.Request[v1.DeletePetRequest]) (*connect_go.Response[v1.DeletePetResponse], error) {
 	return c.deletePet.CallUnary(ctx, req)
 }
 
-// PetStoreHandler is an implementation of the pet.v1.PetStore service.
-type PetStoreHandler interface {
+// PetStoreServiceHandler is an implementation of the pet.v1.PetStoreService service.
+type PetStoreServiceHandler interface {
 	GetPet(context.Context, *connect_go.Request[v1.GetPetRequest]) (*connect_go.Response[v1.GetPetResponse], error)
 	PutPet(context.Context, *connect_go.Request[v1.PutPetRequest]) (*connect_go.Response[v1.PutPetResponse], error)
 	DeletePet(context.Context, *connect_go.Request[v1.DeletePetRequest]) (*connect_go.Response[v1.DeletePetResponse], error)
 }
 
-// NewPetStoreHandler builds an HTTP handler from the service implementation. It returns the path on
-// which to mount the handler and the handler itself.
+// NewPetStoreServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewPetStoreHandler(svc PetStoreHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
+func NewPetStoreServiceHandler(svc PetStoreServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
 	mux := http.NewServeMux()
-	mux.Handle("/pet.v1.PetStore/GetPet", connect_go.NewUnaryHandler(
-		"/pet.v1.PetStore/GetPet",
+	mux.Handle("/pet.v1.PetStoreService/GetPet", connect_go.NewUnaryHandler(
+		"/pet.v1.PetStoreService/GetPet",
 		svc.GetPet,
 		opts...,
 	))
-	mux.Handle("/pet.v1.PetStore/PutPet", connect_go.NewUnaryHandler(
-		"/pet.v1.PetStore/PutPet",
+	mux.Handle("/pet.v1.PetStoreService/PutPet", connect_go.NewUnaryHandler(
+		"/pet.v1.PetStoreService/PutPet",
 		svc.PutPet,
 		opts...,
 	))
-	mux.Handle("/pet.v1.PetStore/DeletePet", connect_go.NewUnaryHandler(
-		"/pet.v1.PetStore/DeletePet",
+	mux.Handle("/pet.v1.PetStoreService/DeletePet", connect_go.NewUnaryHandler(
+		"/pet.v1.PetStoreService/DeletePet",
 		svc.DeletePet,
 		opts...,
 	))
-	return "/pet.v1.PetStore/", mux
+	return "/pet.v1.PetStoreService/", mux
 }
 
-// UnimplementedPetStoreHandler returns CodeUnimplemented from all methods.
-type UnimplementedPetStoreHandler struct{}
+// UnimplementedPetStoreServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedPetStoreServiceHandler struct{}
 
-func (UnimplementedPetStoreHandler) GetPet(context.Context, *connect_go.Request[v1.GetPetRequest]) (*connect_go.Response[v1.GetPetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pet.v1.PetStore.GetPet is not implemented"))
+func (UnimplementedPetStoreServiceHandler) GetPet(context.Context, *connect_go.Request[v1.GetPetRequest]) (*connect_go.Response[v1.GetPetResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pet.v1.PetStoreService.GetPet is not implemented"))
 }
 
-func (UnimplementedPetStoreHandler) PutPet(context.Context, *connect_go.Request[v1.PutPetRequest]) (*connect_go.Response[v1.PutPetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pet.v1.PetStore.PutPet is not implemented"))
+func (UnimplementedPetStoreServiceHandler) PutPet(context.Context, *connect_go.Request[v1.PutPetRequest]) (*connect_go.Response[v1.PutPetResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pet.v1.PetStoreService.PutPet is not implemented"))
 }
 
-func (UnimplementedPetStoreHandler) DeletePet(context.Context, *connect_go.Request[v1.DeletePetRequest]) (*connect_go.Response[v1.DeletePetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pet.v1.PetStore.DeletePet is not implemented"))
+func (UnimplementedPetStoreServiceHandler) DeletePet(context.Context, *connect_go.Request[v1.DeletePetRequest]) (*connect_go.Response[v1.DeletePetResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pet.v1.PetStoreService.DeletePet is not implemented"))
 }
